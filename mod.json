@@ -1,0 +1,17 @@
+{
+    "geode": "v3.0.0",
+    "gd": { 
+        "win": "2.206", 
+        "mac": "2.206" 
+    },
+    "id": "gha16.versusmode",
+    "name": "VersusMode",
+    "version": "v1.0.0",
+    "developer": "Gha16",
+    "description": "play versus mode! click the button that replaces the old grey ones",
+    "dependencies": {
+        "geode.node-ids": ">=v1.17.0",
+        "dankmemer.globed2": ">=v1.2.0",
+        "cdc.level_thumbnails": ">=v1.0.0"
+    }
+}
