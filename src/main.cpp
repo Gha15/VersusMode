@@ -4,6 +4,7 @@
 #include <Geode/ui/GeodeUI.hpp>
 #include <globed/api.hpp>
 #include <random>
+#include <Geode/loader/Dispatch.hpp> // Needed for inter-mod talking
 
 using namespace geode::prelude;
 
