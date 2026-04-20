@@ -26,9 +26,10 @@ jobs:
 
       - name: Setup Android NDK
         if: matrix.config.target == 'Android'
-        uses: nadoalbert/setup-ndk@v1
+        uses: nndofive/setup-ndk@v1
         with:
           ndk-version: r26b
+          add-to-path: true
 
       - uses: geode-sdk/build-geode-mod@main
         with:
