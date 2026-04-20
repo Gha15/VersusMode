@@ -26,7 +26,6 @@ jobs:
 
       - uses: geode-sdk/build-geode-mod@main
         with:
-          bindings: true
           combine: true
           target: ${{ matrix.config.target }}
           android-ndk-version: r26b
