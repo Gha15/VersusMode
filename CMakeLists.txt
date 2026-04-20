@@ -1,17 +1,16 @@
 cmake_minimum_required(VERSION 3.13.4)
 
+# This name should match your folder/repo name
 project(VersusMode)
 
-# Find the Geode SDK
 find_package(Geode REQUIRED)
 
-# Define the mod and its source files
+# We use the PROJECT_NAME variable to avoid typos
 add_geode_mod(
-    gha16.versusmode
-    VERSION v1.0.0
+    ${PROJECT_NAME}
     SOURCES 
         src/main.cpp
 )
 
-# This is the magic line for Globed/Node-IDs to work on GitHub Actions
-setup_geode_mod(gha16.versusmode)
+# This links your mod.json and resources
+setup_geode_mod(${PROJECT_NAME})
