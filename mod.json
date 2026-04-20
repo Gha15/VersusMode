@@ -24,8 +24,6 @@
 		}
 	],
 	"resources": {
-		"sprites": [
-			"logo.png"
-		]
-	}
+		"sprites": []
+	
 }
