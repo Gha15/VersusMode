@@ -1,31 +1,53 @@
-name: Build Geode Mod
+name: Build Mod
+
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     strategy:
       fail-fast: false
       matrix:
-        config:
-        - name: Windows
-          os: windows-latest
-        - name: macOS
-          os: macos-latest
-        - name: Android
-          os: ubuntu-latest
-          target: Android
-
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
+        include:
+          - os: windows-latest
+            platform: win
+            name: Windows
+          - os: macos-latest  
+            platform: mac
+            name: macOS
+          - os: ubuntu-latest
+            platform: android
+            name: Android
+    
+    runs-on: ${{ matrix.os }}
+    name: Build ${{ matrix.name }}
+    
     steps:
-      - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
 
-      - uses: geode-sdk/build-geode-mod@main
-        with:
-          combine: true
-          target: ${{ matrix.config.target }}
-          android-ndk-version: r26b
+    - name: Setup Geode CLI
+      uses: geode-sdk/cli@v1
+
+    - name: Install Geode SDK
+      run: geode sdk install && geode sdk install-binaries
+
+    - name: Setup Android NDK
+      if: matrix.platform == 'android'
+      uses: nttld/setup-ndk@v1
+      with:
+        ndk-version: r26d
+
+    - name: Build mod
+      run: geode build --platform ${{ matrix.platform }} --config Release
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ github.event.repository.name }}-${{ matrix.platform }}
+        path: build/*.geode
