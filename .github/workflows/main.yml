@@ -9,16 +9,16 @@ on:
 jobs:
   build:
     strategy:
-      fail-fast:false
+      fail-fast: false
       matrix:
         config:
-        - name: Windows
-          os: windows-latest
-        - name: macOS
-          os: macos-latest
-        - name: Android
-          os: ubuntu-latest
-          target: Android
+          - name: Windows
+            os: windows-latest
+          - name: macOS
+            os: macos-latest
+          - name: Android
+            os: ubuntu-latest
+            target: Android
 
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
@@ -30,7 +30,6 @@ jobs:
       - name: Build Mod
         uses: geode-sdk/build-geode-mod@main
         with:
-          # This ensures it looks at the root folder for CMakeLists.txt
           build-config: Release
           target: ${{ matrix.config.target }}
           combine: true
