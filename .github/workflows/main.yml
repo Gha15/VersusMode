@@ -1,53 +1,42 @@
-name: Build Mod
+name: Build Geode Mod
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     strategy:
-      fail-fast: false
+      fail-fast:false
       matrix:
-        include:
-          - os: windows-latest
-            platform: win
-            name: Windows
-          - os: macos-latest  
-            platform: mac
-            name: macOS
-          - os: ubuntu-latest
-            platform: android
-            name: Android
-    
-    runs-on: ${{ matrix.os }}
-    name: Build ${{ matrix.name }}
-    
+        config:
+        - name: Windows
+          os: windows-latest
+        - name: macOS
+          os: macos-latest
+        - name: Android
+          os: ubuntu-latest
+          target: Android
+
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Setup Geode CLI
-      uses: geode-sdk/cli@v1
+      - name: Build Mod
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          # This ensures it looks at the root folder for CMakeLists.txt
+          build-config: Release
+          target: ${{ matrix.config.target }}
+          combine: true
 
-    - name: Install Geode SDK
-      run: geode sdk install && geode sdk install-binaries
-
-    - name: Setup Android NDK
-      if: matrix.platform == 'android'
-      uses: nttld/setup-ndk@v1
-      with:
-        ndk-version: r26d
-
-    - name: Build mod
-      run: geode build --platform ${{ matrix.platform }} --config Release
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ github.event.repository.name }}-${{ matrix.platform }}
-        path: build/*.geode
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: geode-build-${{ matrix.config.name }}
+          path: build/*.geode
