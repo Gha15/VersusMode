@@ -1,8 +1,13 @@
 {
-	"geode": "3.0.0-beta.1",
-	"id": "gha16.versusmode",
-	"name": "Versus Mode",
-	"version": "v1.0.0",
-	"developer": "Gha15",
-	"description": "Versus mode for GD"
+  "id": "versusmode",
+  "name": "Versus Mode",
+  "version": "1.0.0",
+  "description": "Adds a multiplayer versus mode using Globed.",
+  "dependencies": {
+    "geode": ">=2.0.0",
+    "globed": ">=1.3.0"
+  },
+  "geode": {
+    "compatibility": "2.2"
+  }
 }
